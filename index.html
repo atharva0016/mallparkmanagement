@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MallPark | Smart Parking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+
+  <!-- Loading screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo">
+      <i class="fa-solid fa-square-parking"></i>
+      <span>MallPark</span>
+    </div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  </div>
+
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-mesh"></div>
+    <div class="ambient-rays"></div>
+    <div class="ambient-noise"></div>
+  </div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+  <div class="mouse-glow" id="mouseGlow" aria-hidden="true"></div>
+
+  <main class="login-shell">
+    <header class="login-brand reveal">
+      <div class="logo-orb">
+        <i class="fa-solid fa-square-parking"></i>
+      </div>
+      <h1 class="brand-title">MallPark</h1>
+      <p class="brand-sub">Smart Parking Management System</p>
+    </header>
+
+    <section class="welcome-card glass premium-card reveal" id="welcomeCard">
+      <div class="welcome-header">
+        <span class="welcome-eyebrow"><i class="fa-solid fa-circle"></i> Live Smart Parking</span>
+        <h2>Find your spot before you even arrive.</h2>
+        <p>Tell us about your vehicle and we'll get you parked in seconds — live slot discovery, AI-recommended spots, and a clean route from arrival to parking.</p>
+      </div>
+
+      <form id="vehicleEntryForm" autocomplete="off">
+        <label class="field">
+          <span>Vehicle Number</span>
+          <input type="text" id="vehicleNumberInput" placeholder="e.g. MH12AB4587" required>
+        </label>
+
+        <div class="field vehicle-type-field">
+          <span>Vehicle Type</span>
+          <div class="vehicle-type-selector" id="vehicleTypeSelector" role="radiogroup" aria-label="Vehicle Type">
+            <button type="button" class="vehicle-type-card" data-vehicle-type="Two-Wheeler" role="radio" aria-checked="false">
+              <span class="vt-icon"><i class="fa-solid fa-motorcycle"></i></span>
+              <span class="vt-text">
+                <span class="vt-label">Two-Wheeler</span>
+                <span class="vt-sub">Motorcycles &amp; Scooters</span>
+              </span>
+              <span class="vt-check"><i class="fa-solid fa-circle-check"></i></span>
+            </button>
+            <button type="button" class="vehicle-type-card active" data-vehicle-type="Four-Wheeler" role="radio" aria-checked="true">
+              <span class="vt-icon"><i class="fa-solid fa-car"></i></span>
+              <span class="vt-text">
+                <span class="vt-label">Four-Wheeler</span>
+                <span class="vt-sub">Cars &amp; SUVs</span>
+              </span>
+              <span class="vt-check"><i class="fa-solid fa-circle-check"></i></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field ev-toggle-field">
+          <span>Charging Preference</span>
+          <div class="ev-toggle" id="evToggle" role="button" tabindex="0" aria-pressed="false">
+            <button type="button" class="ev-toggle-option active" data-ev="false">
+              <i class="fa-solid fa-gas-pump"></i> Normal
+            </button>
+            <button type="button" class="ev-toggle-option" data-ev="true">
+              <i class="fa-solid fa-bolt"></i> EV
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-ripple welcome-submit" id="startJourneyBtn">
+          <span>Start Parking Journey</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <script src="ui.js"></script>
+  <script src="entry.js"></script>
+</body>
+</html>
