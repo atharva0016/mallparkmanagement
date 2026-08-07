@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MallPark | Customer Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="customer.css">
+</head>
+<body class="premium-bg customer-page">
+
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo">
+      <i class="fa-solid fa-square-parking"></i>
+      <span>MallPark</span>
+    </div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  </div>
+
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-mesh"></div>
+    <div class="ambient-rays"></div>
+    <div class="ambient-noise"></div>
+  </div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+  <div class="mouse-glow" id="mouseGlow" aria-hidden="true"></div>
+
+  <aside class="ai-assistant-card glass" id="aiAssistantCard">
+    <div class="ai-card-header">
+      <div class="ai-card-title">
+        <span class="ai-live-dot"></span>
+        <i class="fa-solid fa-sparkles"></i>
+        <span>AI Smart Parking Assistant</span>
+      </div>
+      <div class="ai-header-actions">
+        <span class="ai-status-pill" id="aiStatusText">Live</span>
+        <button class="ai-card-toggle" id="aiCardToggle" type="button" aria-label="Toggle assistant">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+    <div class="ai-card-body" id="aiCardBody">
+      <div class="ai-recommend-badge">
+        <i class="fa-solid fa-star"></i>
+        <span>AI Recommended Slot</span>
+      </div>
+      <div class="ai-recommend-slot" id="aiRecommendedSlot">--</div>
+      <div class="ai-recommend-score">
+        <span>Smart Parking Score</span>
+        <strong id="aiRecommendedScore">--</strong>
+      </div>
+      <ul class="ai-reasons" id="aiReasonsList"></ul>
+      <button class="btn-ripple ai-accept-btn" id="aiAcceptBtn" type="button">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        Accept AI Recommendation
+      </button>
+    </div>
+  </aside>
+
+<header class="main-header glass-header">
+  <div class="logo-container">
+    <i class="fa-solid fa-square-parking"></i>
+    <div>
+      <h2>MallPark</h2>
+      <span>Customer Portal</span>
+    </div>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="#dashboard" class="active" data-section="dashboard">Home</a></li>
+      <li><a href="#parking-map" data-section="parking-map">Parking Map</a></li>
+      <li><a href="#session" data-section="session">My Session</a></li>
+      <li><a href="#find-vehicle" data-section="find-vehicle">Find Vehicle</a></li>
+      <li><a href="#ai-insights" data-section="ai-insights">AI Insights</a></li>
+    </ul>
+  </nav>
+
+  <div class="header-actions">
+    <div class="header-clock" id="headerClock">
+      <span class="clock-time" id="headerTime">--:--</span>
+      <span class="clock-date" id="headerDate">---</span>
+    </div>
+    <div class="system-status">
+      <span class="status-indicator"></span>
+      LIVE
+    </div>
+    <button aria-label="Toggle theme" id="themeToggleBtn">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+    <a href="index.html" class="logout-btn" id="customerExitBtn">
+      <i class="fa-solid fa-arrow-left"></i> Exit Portal
+    </a>
+  </div>
+</header>
+
+<main>
+
+<section class="dashboard-hero" id="dashboard">
+  <div class="hero-backdrop" aria-hidden="true">
+    <span class="hero-orb orb-1"></span>
+    <span class="hero-orb orb-2"></span>
+    <span class="hero-grid"></span>
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow"><i class="fa-solid fa-circle"></i> Live Smart Parking</span>
+    <div class="hero-title">
+      <h1>Find parking faster, with less guesswork.</h1>
+      <p>Live floor availability, instant slot discovery, and a cleaner route from arrival to parking — all in one customer console.</p>
+    </div>
+
+    <div class="hero-signal-row">
+      <div class="hero-signal-badge premium-card">
+        <span class="signal-dot"></span>
+        <span>Live Occupancy</span>
+        <strong id="heroOccupancyPct">70%</strong>
+      </div>
+      <div class="hero-signal-badge premium-card available">
+        <i class="fa-solid fa-square-parking"></i>
+        <span>Available Now</span>
+        <strong id="heroAvailCount">183</strong>
+      </div>
+    </div>
+
+    <div class="parking-search hero-search">
+      <label class="sr-only" for="globalSearchInput">Search your vehicle or slot</label>
+      <input type="text" id="globalSearchInput" placeholder="Search your vehicle number, slot ID, or floor...">
+      <button id="globalSearchBtn" class="btn-ripple">Search</button>
+    </div>
+
+    <div class="hero-actions">
+      <button class="hero-primary-cta btn-ripple" id="heroPrimaryCta">
+        <i class="fa-solid fa-map-location-dot"></i>
+        Explore Parking Map
+      </button>
+    </div>
+  </div>
+
+  <div class="mall-showcase" id="mallShowcase">
+    <div class="showcase-stage" id="showcaseStage">
+
+      <div class="showcase-slides" id="showcaseSlides">
+
+        <article class="showcase-slide is-active" data-index="0">
+          <div class="showcase-slide-media">
+            <img src="https://images.unsplash.com/photo-1519567770579-c2fc5e483b25?auto=format&fit=crop&w=1000&q=80" alt="Phoenix Marketcity Pune" loading="eager" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+            <i class="fa-solid fa-building-columns fallback-icon" aria-hidden="true"></i>
+          </div>
+          <div class="showcase-slide-scrim"></div>
+          <div class="showcase-slide-copy">
+            <span class="showcase-tag"><i class="fa-solid fa-location-dot"></i> Viman Nagar, Pune</span>
+            <h3 class="showcase-slide-title">Phoenix Marketcity Pune</h3>
+            <p class="showcase-slide-desc">Find your parking before entering the mall.</p>
+          </div>
+        </article>
+
+        <article class="showcase-slide" data-index="1">
+          <div class="showcase-slide-media">
+            <img src="https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?auto=format&fit=crop&w=1000&q=80" alt="Smart parking area" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+            <i class="fa-solid fa-square-parking fallback-icon" aria-hidden="true"></i>
+          </div>
+          <div class="showcase-slide-scrim"></div>
+          <div class="showcase-slide-copy">
+            <span class="showcase-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Powered</span>
+            <h3 class="showcase-slide-title">Smart Parking</h3>
+            <p class="showcase-slide-desc">AI recommends the closest available parking slot.</p>
+          </div>
+        </article>
+
+        <article class="showcase-slide" data-index="2">
+          <div class="showcase-slide-media">
+            <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1000&q=80" alt="EV charging station" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+            <i class="fa-solid fa-bolt fallback-icon" aria-hidden="true"></i>
+          </div>
+          <div class="showcase-slide-scrim"></div>
+          <div class="showcase-slide-copy">
+            <span class="showcase-tag"><i class="fa-solid fa-leaf"></i> Zero Emission</span>
+            <h3 class="showcase-slide-title">EV Charging</h3>
+            <p class="showcase-slide-desc">Dedicated EV charging stations available.</p>
+          </div>
+        </article>
+
+        <article class="showcase-slide" data-index="3">
+          <div class="showcase-slide-media">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80" alt="Mall interior shopping" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+            <i class="fa-solid fa-bag-shopping fallback-icon" aria-hidden="true"></i>
+          </div>
+          <div class="showcase-slide-scrim"></div>
+          <div class="showcase-slide-copy">
+            <span class="showcase-tag"><i class="fa-solid fa-store"></i> 250+ Stores</span>
+            <h3 class="showcase-slide-title">Shopping Experience</h3>
+            <p class="showcase-slide-desc">Park faster and enjoy shopping without wasting time.</p>
+          </div>
+        </article>
+
+        <article class="showcase-slide" data-index="4">
+          <div class="showcase-slide-media">
+            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80" alt="Mall food court" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+            <i class="fa-solid fa-utensils fallback-icon" aria-hidden="true"></i>
+          </div>
+          <div class="showcase-slide-scrim"></div>
+          <div class="showcase-slide-copy">
+            <span class="showcase-tag"><i class="fa-solid fa-mug-hot"></i> 30+ Eateries</span>
+            <h3 class="showcase-slide-title">Food Court</h3>
+            <p class="showcase-slide-desc">Discover restaurants after parking.</p>
+          </div>
+        </article>
+
+      </div>
+
+      <button type="button" class="showcase-play" id="showcasePlayBtn" tabindex="-1" aria-hidden="true">
+        <span class="showcase-play-ring"></span>
+        <i class="fa-solid fa-play"></i>
+      </button>
+
+      <div class="showcase-progress" id="showcaseProgress" aria-hidden="true">
+        <span class="showcase-progress-fill" id="showcaseProgressFill"></span>
+      </div>
+
+      <div class="showcase-controls">
+        <button type="button" class="showcase-arrow showcase-prev" id="showcasePrevBtn" aria-label="Previous slide">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="showcase-dots" id="showcaseDots" role="tablist" aria-label="Showcase slides"></div>
+        <button type="button" class="showcase-arrow showcase-next" id="showcaseNextBtn" aria-label="Next slide">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="showcase-previews" id="showcasePreviews">
+      <button type="button" class="preview-card preview-card-1" data-goto="1" aria-label="Jump to Smart Parking slide">
+        <span class="preview-card-media">
+          <img src="https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?auto=format&fit=crop&w=200&q=70" alt="" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+          <i class="fa-solid fa-square-parking fallback-icon" aria-hidden="true"></i>
+        </span>
+        <span class="preview-card-label">Smart Parking</span>
+      </button>
+      <button type="button" class="preview-card preview-card-2" data-goto="2" aria-label="Jump to EV Charging slide">
+        <span class="preview-card-media">
+          <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=200&q=70" alt="" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+          <i class="fa-solid fa-bolt fallback-icon" aria-hidden="true"></i>
+        </span>
+        <span class="preview-card-label">EV Charging</span>
+      </button>
+      <button type="button" class="preview-card preview-card-3" data-goto="4" aria-label="Jump to Food Court slide">
+        <span class="preview-card-media">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=200&q=70" alt="" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('media-fallback')">
+          <i class="fa-solid fa-utensils fallback-icon" aria-hidden="true"></i>
+        </span>
+        <span class="preview-card-label">Food Court</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Customer-safe quick info (no internal ops stats) -->
+<section class="statistics-section customer-quick-info" id="quick-info">
+  <div class="stat-card hover-lift">
+    <i class="fa-solid fa-layer-group"></i>
+    <h2 id="statFloorFree">24</h2>
+    <p>Free on This Floor</p>
+  </div>
+  <div class="stat-card hover-lift">
+    <i class="fa-solid fa-bolt"></i>
+    <h2 id="statEV">08</h2>
+    <p>EV Chargers Free</p>
+  </div>
+  <div class="stat-card hover-lift">
+    <i class="fa-solid fa-indian-rupee-sign"></i>
+    <h2 id="statFee">₹40/hr</h2>
+    <p>Parking Fee</p>
+  </div>
+  <div class="stat-card hover-lift">
+    <i class="fa-solid fa-car-side"></i>
+    <h2 id="statMyStatus">Idle</h2>
+    <p>My Session</p>
+  </div>
+</section>
+
+<section class="ai-insights-section" id="ai-insights">
+  <div class="section-title">
+    <h2>Parking Insights</h2>
+    <p>Live, AI-powered insights that update as availability changes.</p>
+  </div>
+  <div class="ai-insights-grid">
+    <div class="ai-insight-card glass hover-lift">
+      <i class="fa-solid fa-clock"></i>
+      <span class="insight-label">Best Time to Exit</span>
+      <strong id="insightBestExit">--</strong>
+    </div>
+    <div class="ai-insight-card glass hover-lift">
+      <i class="fa-solid fa-car-side"></i>
+      <span class="insight-label">Estimated Congestion</span>
+      <strong id="insightCongestion">--</strong>
+    </div>
+    <div class="ai-insight-card glass hover-lift">
+      <i class="fa-solid fa-person-walking"></i>
+      <span class="insight-label">Walking Time</span>
+      <strong id="insightWalkTime">--</strong>
+    </div>
+    <div class="ai-insight-card glass hover-lift" id="insightChargingCard">
+      <i class="fa-solid fa-bolt"></i>
+      <span class="insight-label">Charging Queue (EV)</span>
+      <strong id="insightChargingQueue">--</strong>
+    </div>
+    <div class="ai-insight-card glass hover-lift">
+      <i class="fa-solid fa-leaf"></i>
+      <span class="insight-label">CO&#8322; Saved</span>
+      <strong id="insightCO2">--</strong>
+    </div>
+    <div class="ai-insight-card glass hover-lift">
+      <i class="fa-solid fa-chart-line"></i>
+      <span class="insight-label">Parking Efficiency Score</span>
+      <strong id="insightEfficiency">--</strong>
+    </div>
+  </div>
+</section>
+
+<section class="floor-navigation">
+  <h3>Select Floor</h3>
+  <div class="floor-buttons">
+    <button class="floor active" data-floor="B2">B2 <span>24 Free</span></button>
+    <button class="floor-button" data-floor="B1">B1 <span>31 Free</span></button>
+    <button class="floor-button" data-floor="Ground">Ground <span>FULL</span></button>
+    <button class="floor-button" data-floor="L1">L1 <span>42 Free</span></button>
+    <button class="floor-button" data-floor="L2">L2 <span>86 Free</span></button>
+  </div>
+</section>
+
+<section class="parking-dashboard" id="parking-map">
+  <div class="dashboard-header">
+    <div>
+      <h2>Interactive Parking Map</h2>
+      <p>Select a parking slot to view complete details.</p>
+    </div>
+    <div class="current-floor-card">
+      <span>Current Floor</span>
+      <h3 id="current-floor-display">B2</h3>
+    </div>
+  </div>
+
+  <div class="dashboard-layout">
+    <div class="parking-map-container glass">
+      <div class="parking-entry"><i class="fa-solid fa-arrow-right"></i> ENTRY</div>
+
+      <div class="parking-row">
+        <span class="row-label">A</span>
+        <div class="parking-slot slot-available" data-slot="A01" data-tooltip="A01 · Available">A01</div>
+        <div class="parking-slot slot-occupied" data-slot="A02" data-tooltip="A02 · Occupied">A02</div>
+        <div class="parking-slot slot-available" data-slot="A03" data-tooltip="A03 · Available">A03</div>
+        <div class="parking-slot slot-ev" data-slot="A04" data-tooltip="A04 · EV">A04</div>
+        <div class="parking-slot slot-available" data-slot="A05" data-tooltip="A05 · Available">A05</div>
+        <div class="parking-slot slot-occupied" data-slot="A06" data-tooltip="A06 · Occupied">A06</div>
+        <div class="parking-slot slot-available" data-slot="A07" data-tooltip="A07 · Available">A07</div>
+        <div class="parking-slot slot-available" data-slot="A08" data-tooltip="A08 · Available">A08</div>
+      </div>
+      <div class="drive-lane">DRIVE LANE</div>
+      <div class="parking-row">
+        <span class="row-label">B</span>
+        <div class="parking-slot slot-occupied" data-slot="B01" data-tooltip="B01 · Occupied">B01</div>
+        <div class="parking-slot slot-available" data-slot="B02" data-tooltip="B02 · Available">B02</div>
+        <div class="parking-slot slot-occupied" data-slot="B03" data-tooltip="B03 · Occupied">B03</div>
+        <div class="parking-slot slot-available" data-slot="B04" data-tooltip="B04 · Available">B04</div>
+        <div class="parking-slot slot-available" data-slot="B05" data-tooltip="B05 · Available">B05</div>
+        <div class="parking-slot slot-ev" data-slot="B06" data-tooltip="B06 · EV">B06</div>
+        <div class="parking-slot slot-occupied" data-slot="B07" data-tooltip="B07 · Occupied">B07</div>
+        <div class="parking-slot slot-available" data-slot="B08" data-tooltip="B08 · Available">B08</div>
+      </div>
+      <div class="drive-lane">DRIVE LANE</div>
+      <div class="parking-row">
+        <span class="row-label">C</span>
+        <div class="parking-slot slot-available" data-slot="C01" data-tooltip="C01 · Available">C01</div>
+        <div class="parking-slot slot-available" data-slot="C02" data-tooltip="C02 · Available">C02</div>
+        <div class="parking-slot slot-occupied" data-slot="C03" data-tooltip="C03 · Occupied">C03</div>
+        <div class="parking-slot slot-available" data-slot="C04" data-tooltip="C04 · Available">C04</div>
+        <div class="parking-slot slot-occupied" data-slot="C05" data-tooltip="C05 · Occupied">C05</div>
+        <div class="parking-slot slot-available" data-slot="C06" data-tooltip="C06 · Available">C06</div>
+        <div class="parking-slot slot-available" data-slot="C07" data-tooltip="C07 · Available">C07</div>
+        <div class="parking-slot slot-ev" data-slot="C08" data-tooltip="C08 · EV">C08</div>
+      </div>
+      <div class="drive-lane">DRIVE LANE</div>
+      <div class="parking-row">
+        <span class="row-label">D</span>
+        <div class="parking-slot slot-occupied" data-slot="D01" data-tooltip="D01 · Occupied">D01</div>
+        <div class="parking-slot slot-available" data-slot="D02" data-tooltip="D02 · Available">D02</div>
+        <div class="parking-slot slot-available" data-slot="D03" data-tooltip="D03 · Available">D03</div>
+        <div class="parking-slot slot-occupied" data-slot="D04" data-tooltip="D04 · Occupied">D04</div>
+        <div class="parking-slot slot-available" data-slot="D05" data-tooltip="D05 · Available">D05</div>
+        <div class="parking-slot slot-available" data-slot="D06" data-tooltip="D06 · Available">D06</div>
+        <div class="parking-slot slot-occupied" data-slot="D07" data-tooltip="D07 · Occupied">D07</div>
+        <div class="parking-slot slot-available" data-slot="D08" data-tooltip="D08 · Available">D08</div>
+      </div>
+      <div class="parking-exit">EXIT <i class="fa-solid fa-arrow-right"></i></div>
+    </div>
+
+    <aside class="slot-details-panel glass">
+      <h3>Parking Slot Details</h3>
+      <div class="slot-details-card">
+        <div class="detail-row"><span>Slot Number</span><strong id="selected-slot">--</strong></div>
+        <div class="detail-row"><span>Status</span><strong id="slot-status">Select a Slot</strong></div>
+        <div class="detail-row"><span>Floor</span><strong id="slot-floor">B2</strong></div>
+        <div class="detail-row"><span>Vehicle Type</span><strong id="slot-vehicle-type"><i class="fa-solid fa-car"></i> Four-Wheeler</strong></div>
+        <div class="detail-row"><span>Distance from Entry</span><strong id="slot-distance">--</strong></div>
+        <div class="detail-row"><span>Parking Fee</span><strong>₹40 / Hour</strong></div>
+      </div>
+      <button id="reserveSlotBtn" class="reserve-slot-btn btn-ripple">Reserve Parking Spot</button>
+    </aside>
+  </div>
+</section>
+
+<section class="parking-session-section" id="session">
+  <div class="section-title">
+    <h2>Active Parking Session</h2>
+    <p>Track your current parking session in real time.</p>
+  </div>
+  <div class="parking-session-layout">
+    <div class="session-card glass hover-lift">
+      <h3>Current Parking Session</h3>
+      <div class="session-details">
+        <div class="session-row"><span>Vehicle Number</span><strong id="vehicleNumber">—</strong></div>
+        <div class="session-row"><span>Parking Slot</span><strong id="currentSlot">No Active Session</strong></div>
+        <div class="session-row"><span>Entry Time</span><strong id="entryTime">—</strong></div>
+        <div class="session-row"><span>Current Duration</span><strong id="parkingDuration">00 : 00 : 00</strong></div>
+        <div class="session-row"><span>Parking Fee</span><strong id="parkingFee">₹0</strong></div>
+        <div class="session-row" id="chargingFeeRow" hidden><span>Charging Fee (EV Only)</span><strong id="chargingFee">₹0</strong></div>
+        <div class="session-row"><span>Status</span><strong id="parkingStatus">Idle</strong></div>
+      </div>
+    </div>
+    <div class="charges-card glass hover-lift">
+      <h3>Parking Charges</h3>
+      <div class="charges-list">
+        <div class="charge-row"><span>Parking Rate</span><strong>₹40 / Hour</strong></div>
+        <div class="charge-row" id="chargingRateRow" hidden><span>Charging Rate (EV)</span><strong>₹50 / Hour</strong></div>
+        <div class="charge-row"><span>Estimated Total</span><strong id="estimatedCharge">₹0</strong></div>
+        <div class="charge-row"><span>Payment Status</span><strong id="paymentStatus">No Session</strong></div>
+      </div>
+      <button id="exitParkingBtn" class="exit-parking-btn btn-ripple">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Exit Parking
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="receipt-section" id="receipt">
+  <div class="section-title">
+    <h2>Parking Receipt</h2>
+    <p>Your parking session summary and payment details.</p>
+  </div>
+  <div class="receipt-layout">
+    <div class="receipt-card glass hover-lift">
+      <div class="receipt-header">
+        <h3>MallPark Digital Receipt</h3>
+        <span id="receiptStatus">Awaiting Session</span>
+      </div>
+      <div class="receipt-body">
+        <div class="receipt-row"><span>Receipt ID</span><strong id="receiptID">—</strong></div>
+        <div class="receipt-row"><span>Vehicle Number</span><strong id="receiptVehicle">—</strong></div>
+        <div class="receipt-row"><span>Parking Slot</span><strong id="receiptSlot">—</strong></div>
+        <div class="receipt-row"><span>Entry Time</span><strong id="receiptEntry">—</strong></div>
+        <div class="receipt-row"><span>Exit Time</span><strong id="receiptExit">—</strong></div>
+        <div class="receipt-row"><span>Total Duration</span><strong id="receiptDuration">—</strong></div>
+        <div class="receipt-row"><span>Parking Charges</span><strong id="receiptAmount">—</strong></div>
+        <div class="receipt-row"><span>Payment Method</span><strong>UPI</strong></div>
+      </div>
+      <div class="receipt-footer">
+        <button id="downloadReceiptBtn" class="btn-ripple">
+          <i class="fa-solid fa-download"></i>
+          Download Receipt
+        </button>
+      </div>
+    </div>
+    <div class="payment-summary-card glass hover-lift">
+      <h3>Payment Summary</h3>
+      <div class="summary-list">
+        <div class="summary-row"><span>Parking Rate</span><strong>₹40 / Hour</strong></div>
+        <div class="summary-row"><span>Total Time</span><strong id="summaryTotalTime">—</strong></div>
+        <div class="summary-row"><span>GST</span><strong id="summaryGST">₹0</strong></div>
+        <div class="summary-row total-row"><span>Total Paid</span><strong id="totalPaid">₹0</strong></div>
+      </div>
+      <div class="payment-status" id="paymentCompletedBadge">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="paymentBadgeText">No Payment Yet</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="find-vehicle-section" id="find-vehicle">
+  <div class="section-title">
+    <h2>Find My Vehicle</h2>
+    <p>Enter your vehicle number to locate your parked vehicle.</p>
+  </div>
+  <div class="find-vehicle-layout">
+    <div class="vehicle-search-card glass hover-lift">
+      <h3>Vehicle Search</h3>
+      <p class="privacy-note">You can only search for your own registered vehicle.</p>
+      <div class="vehicle-search-box">
+        <input type="text" id="vehicleSearchInput" placeholder="Enter Your Vehicle Number">
+        <button id="vehicleSearchBtn" class="btn-ripple">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Search
+        </button>
+      </div>
+    </div>
+    <div class="vehicle-result-card glass hover-lift">
+      <h3>Vehicle Location</h3>
+      <div class="vehicle-details">
+        <div class="vehicle-row"><span>Vehicle Number</span><strong id="foundVehicle">—</strong></div>
+        <div class="vehicle-row"><span>Current Floor</span><strong id="foundFloor">—</strong></div>
+        <div class="vehicle-row"><span>Parking Slot</span><strong id="foundSlot">—</strong></div>
+        <div class="vehicle-row"><span>Zone</span><strong id="foundZone">—</strong></div>
+        <div class="vehicle-row"><span>Walking Distance</span><strong id="walkingDistance">—</strong></div>
+        <div class="vehicle-row"><span>Estimated Walk Time</span><strong id="walkingTime">—</strong></div>
+      </div>
+      <button id="showRouteBtn" class="btn-ripple">
+        <i class="fa-solid fa-route"></i>
+        Show Route
+      </button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="ui.js"></script>
+<script src="customer.js"></script>
+</body>
+</html>
